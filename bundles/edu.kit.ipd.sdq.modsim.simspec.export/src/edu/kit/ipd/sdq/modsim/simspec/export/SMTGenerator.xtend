@@ -13,7 +13,7 @@ import edu.kit.ipd.sdq.modsim.simspec.model.expressions.Operator
 import edu.kit.ipd.sdq.modsim.simspec.model.expressions.Variable
 import edu.kit.ipd.sdq.modsim.simspec.model.structure.Attribute
 import java.util.Set
-import org.eclipse.emf.ecore.util.EcoreUtil
+import static extension org.eclipse.emf.ecore.util.EcoreUtil.*
 
 import static extension edu.kit.ipd.sdq.modsim.simspec.model.datatypes.TypeUtil.*
 import edu.kit.ipd.sdq.modsim.simspec.model.arrayoperations.ArrayRead
@@ -49,14 +49,38 @@ class SMTGenerator {
 	 * @param writeFunction The expression that defines the value to write. Must have a type compatible with the type of attribute.
 	 * @return A set of SMT commands that specify the write function.
 	 */
-	def String generateWritesAttribute(Attribute attribute, Expression writeFunction) {
-		if (!writeFunction.type.compatible(attribute.type))
-			throw new IllegalArgumentException('Incompatible types: ' + writeFunction.type + ' and ' + attribute.type)
+	def String generateWritesAttribute(Attribute attribute, Iterable<Expression> writeFunctions, Iterable<Expression> conditions) {
+		if (writeFunctions.length != conditions.length)
+			throw new IllegalArgumentException('Different number of write functions and conditions!')
+		
+		var Expression x
+		if ((x = writeFunctions.findFirst[!type.compatible(attribute.type)]) !== null)
+			throw new IllegalArgumentException('Incompatible types: ' + x.type + ' and ' + attribute.type)
+		if ((x = conditions.findFirst[!type.isBoolType]) !== null)
+			throw new IllegalArgumentException('Condition must be a bool, but has type: ' + x.type)
+		
+		val indices = newIntArrayOfSize(writeFunctions.length)
+		for (var i = 0; i < indices.length; i++) indices.set(i, i)
+		
+		// true if the current attribute is read in any write function or condition
+		val selfRef = (writeFunctions + conditions).exists[findReferencedAttributes.contains(attribute)]
+		val single = writeFunctions.length == 1
 		
 		'''
+		(declare-fun old () «attribute.type.toSMTSort»)
 		(declare-fun value () «attribute.type.toSMTSort»)
-		«writeFunction.listReferences»
-		(assert (= value «writeFunction.generateExpressionAndCast(attribute.type)»))
+		«(writeFunctions + conditions).listReferences»
+		«IF selfRef»
+		(assert (= «attribute.name» old))
+		«ENDIF»
+		«FOR i : indices»
+		(assert (=> «conditions.get(i).generateExpression» (= value «writeFunctions.get(i).generateExpressionAndCast(attribute.type)»)))
+		«ENDFOR»
+		«IF single»
+		(assert (=> (not «conditions.head.generateExpression») (= value old)))
+		«ELSE»
+		(assert (=> (not (or «FOR c : conditions» «c.generateExpression» «ENDFOR»)) (= value old)))
+		«ENDIF»
 		'''
 	}
 	
@@ -85,6 +109,26 @@ class SMTGenerator {
 	private def String listReferences(Expression expr) {
 		val attributes = expr.findReferencedAttributes
 		val enums = expr.findReferencedEnums
+		
+		'''
+		«FOR e : enums»
+		«e.toTypeDeclaration»
+		«ENDFOR»
+		«FOR attr : attributes»
+		«attr.toVariableDeclaration»
+		«ENDFOR»
+		'''
+	}
+	
+	/**
+	 * Generates SMT declarations for all attributes and enum types referenced by a given set of expressions.
+	 * 
+	 * @param expr The expressions for which to find references.
+	 * @return A concatenation of SMT expressions that declare types and variables for the referenced enums and attributes.
+	 */
+	private def String listReferences(Iterable<Expression> expr) {
+		val attributes = expr.flatMap[findReferencedAttributes].toSet
+		val enums = expr.flatMap[findReferencedEnums].toSet
 		
 		'''
 		«FOR e : enums»
@@ -207,9 +251,10 @@ class SMTGenerator {
 	
 	def findReferencedAttributes(Expression expr) {
 		val Set<Attribute> references = newHashSet
-		val contents = EcoreUtil.getAllContents(#[expr])
+		val contents = expr.getAllContents(true)
 		
 		contents.filter(Variable).forEach[references.add(attribute)]
+		if (expr instanceof Variable) references.add(expr.attribute)
 		
 		return references
 	}
@@ -220,7 +265,7 @@ class SMTGenerator {
 	
 	def findReferencedEnums(Expression expr) {
 		val Set<EnumDeclaration> references = newHashSet
-		val contents = EcoreUtil.getAllContents(#[expr])
+		val contents = expr.getAllContents(true)
 		
 		contents.filter(EnumType).forEach[references.add(declaration)]
 		

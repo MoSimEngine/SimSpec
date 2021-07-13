@@ -18,6 +18,9 @@ import org.neo4j.ogm.cypher.ComparisonOperator
 import org.neo4j.ogm.cypher.Filter
 import org.neo4j.ogm.session.Session
 import org.neo4j.ogm.session.SessionFactory
+import java.util.List
+import java.util.ArrayList
+import edu.kit.ipd.sdq.modsim.simspec.model.behavior.Expression
 
 class DescompExport {
 	Session session
@@ -67,7 +70,16 @@ class DescompExport {
 		
 		val simExport = sim.export
 		val schedules = behavior.schedules.map[exportSchedules(generator)]
-		val writes = behavior.writesAttributes.map[exportWritesAttribute(generator)]
+		
+		val writes = new ArrayList<DescompWritesAttribute>
+		for (event : sim.events) {
+			val writesFromEvent = behavior.writesAttributes.filter[it.event == event]
+			for (attr : writesFromEvent.map[attribute].toSet) {
+				val write = writesFromEvent.filter[it.attribute == attr]
+				writes.add(exportWritesAttribute(write, generator))
+			}
+		}
+		//val writes = behavior.writesAttributes.map[exportWritesAttribute(generator)]
 		
 		// save to database
 		val config = new Configuration.Builder()
@@ -102,13 +114,21 @@ class DescompExport {
 		]
 	}
 	
-	private def exportWritesAttribute(WritesAttribute writes, SMTGenerator generator) {
+	private def exportWritesAttribute(Iterable<WritesAttribute> writes, SMTGenerator generator) {
+		val writeFunctions = new ArrayList<Expression>
+		val conditions = new ArrayList<Expression>
+		for (w : writes) {
+			writeFunctions.add(w.writeFunction)
+			conditions.add(w.condition)
+		}
+		
 		new DescompWritesAttribute => [
-			startEvent = writes.event.export
-			attribute = writes.attribute.export
+			// event and attribute are (should be) the same for all writes attribute objects
+			startEvent = writes.head.event.export
+			attribute = writes.head.attribute.export
 			
-			writeFunction = generator.generateWritesAttribute(writes.attribute, writes.writeFunction).replaceAll('\n', '')
-			condition = generator.generateCondition(writes.condition).replaceAll('\n', '')
+		
+			writeFunction = generator.generateWritesAttribute(writes.head.attribute, writeFunctions, conditions).replaceAll('\n', '')
 		]
 	}
 	

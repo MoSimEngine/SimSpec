@@ -5,6 +5,24 @@
   <eClassifiers xsi:type="ecore:EClass" name="SimModelElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimFeature" eSuperTypes="#//SimModelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" upperBound="-1" eType="#//UseFeature"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+        eType="ecore:EClass platform:/resource/edu.kit.ipd.sdq.modsim.simspec.model.structure/model/structure.ecore#//Event"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1"
+        eType="ecore:EClass platform:/resource/edu.kit.ipd.sdq.modsim.simspec.model.structure/model/structure.ecore#//Entity"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enums" upperBound="-1"
+        eType="ecore:EClass platform:/resource/edu.kit.ipd.sdq.modsim.simspec.model.datatypes/model/datatypes.ecore#//EnumDeclaration"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimSpecification" eSuperTypes="#//SimModelElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" unique="false"
+        upperBound="-1" eType="#//SimFeature"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UseFeature">
     <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="#//SimFeature"/>
   </eClassifiers>
@@ -38,24 +56,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="expression" eType="ecore:EClass platform:/resource/edu.kit.ipd.sdq.modsim.simspec.model.behavior/model/behavior.ecore#//Expression"
         containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SimFeature" eSuperTypes="#//SimModelElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="uses" upperBound="-1" eType="#//UseFeature"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
-        eType="ecore:EClass platform:/resource/edu.kit.ipd.sdq.modsim.simspec.model.structure/model/structure.ecore#//Event"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1"
-        eType="ecore:EClass platform:/resource/edu.kit.ipd.sdq.modsim.simspec.model.structure/model/structure.ecore#//Entity"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="enums" upperBound="-1"
-        eType="ecore:EClass platform:/resource/edu.kit.ipd.sdq.modsim.simspec.model.datatypes/model/datatypes.ecore#//EnumDeclaration"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SimSpecification" eSuperTypes="#//SimModelElement">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="features" unique="false"
-        upperBound="-1" eType="#//SimFeature"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GEvent" eSuperTypes="platform:/resource/edu.kit.ipd.sdq.modsim.simspec.model.structure/model/structure.ecore#//Event">
     <eStructuralFeatures xsi:type="ecore:EReference" name="schedules" upperBound="-1"

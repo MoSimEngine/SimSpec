@@ -67,8 +67,8 @@ class DescompSchedules extends DescompIdentifier {
 
 @RelationshipEntity(type = 'WRITES')
 class DescompWritesAttribute extends DescompIdentifier {
-	@Property
-	@Accessors String condition
+	// @Property
+	// @Accessors String condition
 	
 	@Property
 	@Accessors String writeFunction

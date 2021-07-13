@@ -20,8 +20,8 @@ import edu.kit.ipd.sdq.modsim.simspec.model.expressions.ExpressionsPackage
 class SpecificationLanguageProposalProvider extends AbstractSpecificationLanguageProposalProvider {
 	
 	// add available attributes to expression suggestions
-	override completeAtomic_Attribute(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		super.completeAtomic_Attribute(model, assignment, context, acceptor)
+	override completeVariable_Attribute(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		super.completeVariable_Attribute(model, assignment, context, acceptor)
 		val event = model.getContainerOfType(Event)
 		val attributes = event.readAttributes
 		
