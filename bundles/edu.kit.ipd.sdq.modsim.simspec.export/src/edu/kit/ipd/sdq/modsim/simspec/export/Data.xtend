@@ -30,7 +30,19 @@ class DescompSimulator extends DescompIdentifier {
 	
 	@Relationship(type = "EVENT", direction = Relationship.UNDIRECTED)
 	@Accessors Set<DescompEvent> events = new HashSet;
+	
+	@Relationship(type = "DATATYPE", direction = Relationship.UNDIRECTED)
+	@Accessors Set<DescompDatatype> datatypes = new HashSet;
 }
+
+@NodeEntity(label='Datatype')
+class DescompDatatype extends DescompIdentifier {
+	@Relationship(type = "LITERAL", direction = Relationship.OUTGOING)
+	@Accessors Set<DescompLiteral> literals = new HashSet
+}
+
+@NodeEntity(label='Literal')
+class DescompLiteral extends DescompIdentifier {}
 
 @NodeEntity(label='Entity')
 class DescompEntity extends DescompIdentifier {

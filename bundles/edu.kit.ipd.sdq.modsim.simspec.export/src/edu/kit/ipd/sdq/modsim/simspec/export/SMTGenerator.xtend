@@ -67,9 +67,9 @@ class SMTGenerator {
 		val single = writeFunctions.length == 1
 		
 		'''
+		«(writeFunctions + conditions).listReferences»
 		(declare-fun old () «attribute.type.toSMTSort»)
 		(declare-fun value () «attribute.type.toSMTSort»)
-		«(writeFunctions + conditions).listReferences»
 		«IF selfRef»
 		(assert (= «attribute.name» old))
 		«ENDIF»

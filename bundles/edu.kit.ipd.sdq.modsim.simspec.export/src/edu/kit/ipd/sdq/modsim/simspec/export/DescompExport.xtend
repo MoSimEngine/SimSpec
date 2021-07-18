@@ -18,9 +18,10 @@ import org.neo4j.ogm.cypher.ComparisonOperator
 import org.neo4j.ogm.cypher.Filter
 import org.neo4j.ogm.session.Session
 import org.neo4j.ogm.session.SessionFactory
-import java.util.List
 import java.util.ArrayList
 import edu.kit.ipd.sdq.modsim.simspec.model.behavior.Expression
+import edu.kit.ipd.sdq.modsim.simspec.model.datatypes.EnumDeclarationContainer
+import edu.kit.ipd.sdq.modsim.simspec.model.datatypes.EnumDeclaration
 
 class DescompExport {
 	Session session
@@ -35,11 +36,13 @@ class DescompExport {
 	
 	private def deleteSimulator(DescompSimulator sim) {
 		val entities = sim.entities
-		val attributes = entities.map[attributes].flatten
+		val attributes = entities.flatMap[attributes]
 		val events = sim.events
+		val enums = sim.datatypes
+		val literals = enums.flatMap[literals]
 		
 		session.delete(sim)
-		session.delete(entities + attributes + events)
+		session.delete(entities + attributes + events + enums + literals)
 	}
 	
 	/**
@@ -64,11 +67,13 @@ class DescompExport {
 		// load simulator from ecore file
 		val sim = resource.contents.filter(Simulator).head
 		val behavior = resource.contents.filter(BehaviorContainer).head
+		val enums = resource.contents.filter(EnumDeclarationContainer).head
 		
 		// transform to Neo4J model and generate SMT
 		val generator = new SMTGenerator()
 		
 		val simExport = sim.export
+		simExport.datatypes = exportEnums(enums)
 		val schedules = behavior.schedules.map[exportSchedules(generator)]
 		
 		val writes = new ArrayList<DescompWritesAttribute>
@@ -101,6 +106,19 @@ class DescompExport {
 		println('Simulator saved!')
 		
 		factory.close
+	}
+	
+	// Transform methods for enum declarations
+	private def exportEnums(EnumDeclarationContainer container) {
+		container.declarations.map[exportDeclaration].toSet
+	}
+	
+	private def exportDeclaration(EnumDeclaration decl) {
+		val lits = decl.literals.map[lit | new DescompLiteral => [ name = lit ]].toSet
+		new DescompDatatype => [
+			name = decl.name 
+			literals = lits
+		]
 	}
 	
 	// Transform methods for relationships schedules and writes attribute
