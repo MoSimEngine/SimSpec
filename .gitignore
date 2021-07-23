@@ -1,6 +1,6 @@
 # Ignore generated code but keep ignoreme files for empty xyz-gen folders
 src-gen/
-xtend-gen/
+**/xtend-gen/*
+!**/xtend-gen/.ignoreme
 xsemantics-gen/
 target/
-\!ignoreme
