@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated datatypes -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="edu.kit.ipd.sdq.modsim.simspec.model.datatypes.presentation.DatatypesModelWizardID"
+            name="%_UI_DatatypesModelWizard_label"
+            class="edu.kit.ipd.sdq.modsim.simspec.model.datatypes.presentation.DatatypesModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/DatatypesModelFile.gif">
+         <description>%_UI_DatatypesModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated datatypes -->
+      <editor
+            id="edu.kit.ipd.sdq.modsim.simspec.model.datatypes.presentation.DatatypesEditorID"
+            name="%_UI_DatatypesEditor_label"
+            icon="icons/full/obj16/DatatypesModelFile.gif"
+            extensions="datatypes"
+            class="edu.kit.ipd.sdq.modsim.simspec.model.datatypes.presentation.DatatypesEditor"
+            contributorClass="edu.kit.ipd.sdq.modsim.simspec.model.datatypes.presentation.DatatypesActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

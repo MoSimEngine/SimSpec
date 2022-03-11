@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated arrayoperations -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="edu.kit.ipd.sdq.modsim.simspec.model.arrayoperations.presentation.ArrayoperationsModelWizardID"
+            name="%_UI_ArrayoperationsModelWizard_label"
+            class="edu.kit.ipd.sdq.modsim.simspec.model.arrayoperations.presentation.ArrayoperationsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ArrayoperationsModelFile.gif">
+         <description>%_UI_ArrayoperationsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated arrayoperations -->
+      <editor
+            id="edu.kit.ipd.sdq.modsim.simspec.model.arrayoperations.presentation.ArrayoperationsEditorID"
+            name="%_UI_ArrayoperationsEditor_label"
+            icon="icons/full/obj16/ArrayoperationsModelFile.gif"
+            extensions="arrayoperations"
+            class="edu.kit.ipd.sdq.modsim.simspec.model.arrayoperations.presentation.ArrayoperationsEditor"
+            contributorClass="edu.kit.ipd.sdq.modsim.simspec.model.arrayoperations.presentation.ArrayoperationsActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

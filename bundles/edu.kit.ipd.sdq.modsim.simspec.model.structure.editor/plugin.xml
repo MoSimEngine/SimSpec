@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated structure -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="edu.kit.ipd.sdq.modsim.simspec.model.structure.presentation.StructureModelWizardID"
+            name="%_UI_StructureModelWizard_label"
+            class="edu.kit.ipd.sdq.modsim.simspec.model.structure.presentation.StructureModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/StructureModelFile.gif">
+         <description>%_UI_StructureModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated structure -->
+      <editor
+            id="edu.kit.ipd.sdq.modsim.simspec.model.structure.presentation.StructureEditorID"
+            name="%_UI_StructureEditor_label"
+            icon="icons/full/obj16/StructureModelFile.gif"
+            extensions="structure"
+            class="edu.kit.ipd.sdq.modsim.simspec.model.structure.presentation.StructureEditor"
+            contributorClass="edu.kit.ipd.sdq.modsim.simspec.model.structure.presentation.StructureActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

@@ -3,8 +3,9 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/edu.kit.ipd.sdq.modsim.simspec.model.datatypes/src-gen"
     editDirectory="/edu.kit.ipd.sdq.modsim.simspec.model.datatypes.edit/src-gen" editorDirectory="/edu.kit.ipd.sdq.modsim.simspec.model.datatypes.editor/src-gen"
     modelPluginID="edu.kit.ipd.sdq.modsim.simspec.model.datatypes" modelName="Datatypes"
-    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="8.0" copyrightFields="false" usedGenPackages="../../edu.kit.ipd.sdq.modsim.simspec.model.general/model/general.genmodel#//general"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory=""
+    testSuiteClass="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0"
+    copyrightFields="false" usedGenPackages="../../edu.kit.ipd.sdq.modsim.simspec.model.general/model/general.genmodel#//general"
     operationReflection="true" importOrganizing="true">
   <foreignModel>datatypes.ecore</foreignModel>
   <genPackages prefix="Datatypes" basePackage="edu.kit.ipd.sdq.modsim.simspec.model"

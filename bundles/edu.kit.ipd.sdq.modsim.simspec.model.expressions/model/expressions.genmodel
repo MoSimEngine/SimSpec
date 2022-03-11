@@ -4,8 +4,9 @@
     editDirectory="/edu.kit.ipd.sdq.modsim.simspec.model.expressions.edit/src-gen"
     editorDirectory="/edu.kit.ipd.sdq.modsim.simspec.model.expressions.editor/src-gen"
     modelPluginID="edu.kit.ipd.sdq.modsim.simspec.model.expressions" modelName="Expressions"
-    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="8.0" copyrightFields="false" usedGenPackages="../../edu.kit.ipd.sdq.modsim.simspec.model.behavior/model/behavior.genmodel#//behavior ../../edu.kit.ipd.sdq.modsim.simspec.model.datatypes/model/datatypes.genmodel#//datatypes ../../edu.kit.ipd.sdq.modsim.simspec.model.general/model/general.genmodel#//general ../../edu.kit.ipd.sdq.modsim.simspec.model.structure/model/structure.genmodel#//structure"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory=""
+    testSuiteClass="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0"
+    copyrightFields="false" usedGenPackages="../../edu.kit.ipd.sdq.modsim.simspec.model.behavior/model/behavior.genmodel#//behavior ../../edu.kit.ipd.sdq.modsim.simspec.model.datatypes/model/datatypes.genmodel#//datatypes ../../edu.kit.ipd.sdq.modsim.simspec.model.general/model/general.genmodel#//general ../../edu.kit.ipd.sdq.modsim.simspec.model.structure/model/structure.genmodel#//structure"
     operationReflection="true" importOrganizing="true">
   <foreignModel>expressions.ecore</foreignModel>
   <genPackages prefix="Expressions" basePackage="edu.kit.ipd.sdq.modsim.simspec.model"
