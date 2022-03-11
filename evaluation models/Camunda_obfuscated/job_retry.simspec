@@ -1,0 +1,14 @@
+feature job_retry
+
+entity iaevleoeao{
+	uaelve: INT
+	tgvlce: INT
+}
+
+event fvglesn{
+	reads iaevleoeao.tgvlce, iaevleoeao.uaelve
+	
+	writes iaevleoeao.tgvlce = tgvlce - 1
+		when tgvlce > 0			
+}
+

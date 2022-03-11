@@ -1,0 +1,20 @@
+feature sharing_resource
+
+entity SimProcessorSharingResource {
+	countOfRunningProcesses: INT
+	capacity: INT
+}
+
+entity Process {
+	demand: DOUBLE
+	processId: INT //?
+}
+
+event ConsumeSimProcessorSharingResource {
+	reads SimProcessorSharingResource.countOfRunningProcesses, SimProcessorSharingResource.capacity, Process.demand
+	
+	def speed = if countOfRunningProcesses / capacity <= 1.0 then 1.0 
+		else countOfRunningProcesses / capacity
+	
+	schedules ConsumeSimProcessorSharingResource with delay = $speed * demand
+}

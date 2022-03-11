@@ -1,0 +1,24 @@
+feature external_call
+
+entity SimulationProperty {
+	simulateThroughput: BOOL
+}
+
+entity RequestSpecification {
+	sumOfBytes: DOUBLE
+}
+
+entity Request {
+	abstractDemand: DOUBLE
+	type: INT
+}
+
+event ExternalCall {
+	reads SimulationProperty.simulateThroughput, RequestSpecification.sumOfBytes
+	
+	writes Request.abstractDemand = sumOfBytes
+		when simulateThroughput
+	
+	writes Request.abstractDemand = 0.0
+		when !simulateThroughput
+}

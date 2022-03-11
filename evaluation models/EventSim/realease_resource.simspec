@@ -1,0 +1,26 @@
+feature release_resource
+
+entity Process {
+	demand: DOUBLE
+	processId: INT //?
+}
+
+entity PassiveResource {
+	capacity: INT
+	waitingProcesses: ARRAY[INT]
+	waitingProcessesCount: INT
+}
+
+event ReleaseAction {
+	reads PassiveResource.waitingProcessesCount
+	
+	schedules ReleasePassiveResource
+	
+	writes PassiveResource.waitingProcessesCount = waitingProcessesCount - 1
+}
+
+event ReleasePassiveResource {
+	reads PassiveResource.capacity, Process.demand
+	
+	writes PassiveResource.capacity = (INT) (demand + capacity)
+}

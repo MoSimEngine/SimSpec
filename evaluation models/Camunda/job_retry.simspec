@@ -1,0 +1,14 @@
+feature job_retry
+
+entity Job{
+	id: INT
+	retryCount: INT
+}
+
+event decrement_retry{
+	reads Job.retryCount, Job.id
+	
+	writes Job.retryCount = retryCount - 1
+		when retryCount > 0			
+}
+

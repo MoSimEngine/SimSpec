@@ -1,0 +1,7 @@
+simulator Camunda {
+	description = 'Camunda Simulator'
+	
+	features get_task_events, execute_jobs, handle_external_task, handle_task_escalation, job_retry, lock_external_task,
+	resolve_task, save_task, set_task_priority, unlock_user
+	 
+}

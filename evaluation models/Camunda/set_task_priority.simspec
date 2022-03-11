@@ -1,0 +1,20 @@
+feature set_task_priority
+
+entity Task {
+	hasPriority: BOOL
+	isUpdated: BOOL
+}
+
+event execute{
+	reads Task.hasPriority
+	
+	writes Task.hasPriority = true
+	
+	schedules trigger_update_event 	
+} 
+
+event trigger_update_event {
+	reads Task.isUpdated
+	writes Task.isUpdated = true	
+}
+

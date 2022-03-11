@@ -1,0 +1,22 @@
+feature lock_external_task
+
+entity Task {
+	isLocked: BOOL
+	setExpirationDate: BOOL
+	expirationDate: INT
+	isNotNull: BOOL
+}
+
+entity Date {
+	currentDate: INT
+	isCurrentDate: BOOL
+}
+
+event execute {
+	reads Task.isLocked, Task.isNotNull, Date.currentDate, Task.expirationDate
+	
+	writes Task.isLocked = true
+		when isNotNull
+	writes Task.setExpirationDate = true
+		when isNotNull && currentDate < expirationDate		
+}

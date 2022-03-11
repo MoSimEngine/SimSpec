@@ -1,0 +1,21 @@
+feature handle_external_task
+
+entity Worker{
+	id: INT
+}
+
+entity ExternalTask {
+	isNotNull: BOOL
+	isLocked: BOOL	
+}
+
+event execute {
+	reads ExternalTask.isNotNull, ExternalTask.isLocked
+	
+	schedules schedule_task
+		when isNotNull && !isLocked		 
+}
+
+event schedule_task {
+	schedules execute
+}

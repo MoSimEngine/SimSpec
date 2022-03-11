@@ -1,0 +1,20 @@
+feature set_task_priority
+
+entity rvlgente {
+	uvlcriaoetrsboetgard: BOOL
+	vletr: BOOL
+}
+
+event tritrnirnnirneglbtiaenftn{
+	reads rvlgente.uvlcriaoetrsboetgard
+	
+	writes rvlgente.uvlcriaoetrsboetgard = true
+	
+	schedules qvlfcgtrianetrnvlqe 	
+} 
+
+event qvlfcgtrianetrnvlqe {
+	reads rvlgente.vletr
+	writes rvlgente.vletr = true	
+}
+

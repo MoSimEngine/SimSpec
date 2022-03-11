@@ -1,0 +1,15 @@
+feature open_workload
+
+use usage_scenario
+
+entity OpenWorkloadGenerator {
+	interarrivalTime: DOUBLE
+}
+
+event UserArrivalOpenWorkload {
+	reads OpenWorkloadGenerator.interarrivalTime
+
+	schedules UserArrivalOpenWorkload with delay = interarrivalTime
+
+	schedules ProcessUsageScenario
+}

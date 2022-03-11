@@ -1,0 +1,31 @@
+feature handle_task_escalation
+
+entity Task{
+	id: INT
+	isValidTask: BOOL
+	isActive: BOOL	
+}
+
+entity Escalation{
+	code: INT
+	isValidEscalation: BOOL
+}
+
+entity ActivityExecution{
+	isRunning: BOOL
+}
+
+event execute{
+	reads Task.id, Escalation.code, Task.isValidTask, Escalation.isValidEscalation
+	
+	schedules escalation
+		when isValidTask && isValidEscalation  		
+		
+}
+
+event escalation {
+	reads Task.isActive
+	
+	writes ActivityExecution.isRunning = true
+		when isActive 	
+}

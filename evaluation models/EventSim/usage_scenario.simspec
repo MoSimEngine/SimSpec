@@ -1,0 +1,38 @@
+feature usage_scenario
+
+use rdseff
+use closed_workload
+
+datatype UsageBehavior {
+	DelayAction, EntryLevelSystemCall, END
+}
+
+event ProcessUsageScenario {
+	reads UsageScenario.actions
+
+	schedules DelayAction
+		when actions[0] == UsageBehavior.DelayAction
+	schedules EntryLevelSystemCall
+		when actions[0] == UsageBehavior.EntryLevelSystemCall
+	schedules UsageScenarioFinished
+		when actions[0] == UsageBehavior.END
+}
+
+entity UsageScenario {
+	actions: ARRAY[UsageBehavior]
+}
+
+event DelayAction {
+	reads Delay.specDelay
+
+	schedules ProcessUsageScenario with delay = specDelay
+}
+
+entity Delay {
+	specDelay: DOUBLE
+}
+
+
+event EntryLevelSystemCall {
+	schedules ProcessRDSEFF
+}

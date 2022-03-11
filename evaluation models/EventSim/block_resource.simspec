@@ -1,0 +1,30 @@
+feature add_process_to_resource
+
+entity Process {
+	demand: DOUBLE
+	processId: INT //?
+}
+
+entity PassiveResource {
+	capacity: INT
+	waitingProcesses: ARRAY[INT]
+	waitingProcessesCount: INT
+}
+
+event AcquireAction {
+	reads PassiveResource.waitingProcessesCount, PassiveResource.capacity, Process.demand, Process.processId //?
+	
+	schedules BlockPassiveResource
+		when demand <= capacity
+	
+	writes PassiveResource.waitingProcesses[waitingProcessesCount + 1] = processId //?
+		when demand > capacity
+	writes PassiveResource.waitingProcessesCount = waitingProcessesCount + 1
+}
+
+
+event BlockPassiveResource {
+	reads PassiveResource.capacity, Process.demand
+	
+	writes PassiveResource.capacity = (INT) (capacity - demand)
+}

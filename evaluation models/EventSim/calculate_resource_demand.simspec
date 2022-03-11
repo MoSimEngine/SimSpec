@@ -1,0 +1,32 @@
+feature calculate_resource_demand
+
+entity Process {
+	demand: DOUBLE
+	processId: INT //?
+}
+
+entity SimLinkingResource {
+	latency: DOUBLE
+	throughput: DOUBLE
+}
+
+entity Request {
+	abstractDemand: DOUBLE
+	type: INT
+}
+
+entity SimActiveResource {
+	processingRate: DOUBLE
+}
+
+event CalculateLinkingResourceDemand {
+	reads SimLinkingResource.latency, SimLinkingResource.throughput, Request.abstractDemand
+	
+	writes Process.demand = latency + abstractDemand / throughput
+}
+
+event CalculateActiveResourceDemand {
+	reads Request.abstractDemand, SimActiveResource.processingRate
+	
+	writes Process.demand = abstractDemand / processingRate
+}

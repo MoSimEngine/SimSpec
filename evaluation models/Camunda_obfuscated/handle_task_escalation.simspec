@@ -1,0 +1,31 @@
+feature handle_task_escalation
+
+entity aaaaaa{
+	uiel: INT
+	xvleo: BOOL
+	vlcwoeao: BOOL	
+}
+
+entity pppppp{
+	vle: INT
+	uao: BOOL
+}
+
+entity vleo{
+	oaeu: BOOL
+}
+
+event xvlea{
+	reads aaaaaa.uiel, pppppp.vle, aaaaaa.xvleo, pppppp.uao
+	
+	schedules vlepiae
+		when xvleo && uao  		
+		
+}
+
+event vlepiae {
+	reads aaaaaa.vlcwoeao
+	
+	writes vleo.oaeu = true
+		when vlcwoeao 	
+}

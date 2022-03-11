@@ -1,0 +1,22 @@
+feature lock_external_task
+
+entity gqtiatdtrsiaoet {
+	dtdnoed: BOOL
+	setExpirationDate: BOOL
+	expirationDate: INT
+	isNotNull: BOOL
+}
+
+entity etad {
+	currentDate: INT
+	isCurrentDate: BOOL
+}
+
+event rann {
+	reads gqtiatdtrsiaoet.dtdnoed, gqtiatdtrsiaoet.isNotNull, etad.currentDate, gqtiatdtrsiaoet.expirationDate
+	
+	writes gqtiatdtrsiaoet.dtdnoed = true
+		when isNotNull
+	writes gqtiatdtrsiaoet.setExpirationDate = true
+		when isNotNull && currentDate < expirationDate		
+}

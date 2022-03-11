@@ -1,0 +1,69 @@
+feature save_task
+
+entity CC{
+	x: BOOL
+	y: BOOL
+	z: BOOL
+	xx: BOOL
+}
+
+
+entity TT {
+	x: INT
+	y: BOOL
+	z: BOOL
+	xx: BOOL
+}
+
+entity trvaeos {
+	activeInstanceIsRequired: BOOL
+	startActiveInstance: BOOL	
+}
+
+entity fgvletraot {
+	isTaskMetricsEnabled: BOOL
+}
+
+
+event execute {
+	reads TT.x 
+			
+	schedules execute_init
+		when (x == 0) 
+		      
+	writes trvaeos.startActiveInstance = true 
+}
+
+event execute_init {
+	reads CC.z
+	
+	schedules execute_metircs
+		when z == true
+	
+	schedules fire_autherization_provider
+	schedules transition_to_state_created
+}
+
+event execute_metircs{
+	reads trvaeos.activeInstanceIsRequired, fgvletraot.isTaskMetricsEnabled
+	
+	schedules fire_autherization_provider
+	schedules trigger_update_event	
+}
+
+event fire_autherization_provider {
+	reads TT.y
+	writes TT.y = true
+		when y == false	
+}
+
+event transition_to_state_created {
+	reads TT.y, TT.z
+	writes TT.z = true
+		when y == true		
+}
+
+event trigger_update_event {
+	reads TT.xx
+	writes TT.xx = true	
+}

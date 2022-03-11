@@ -1,0 +1,27 @@
+feature hdd_demand
+
+entity SimHDDActiveResource {
+	writeProcessingRate: DOUBLE
+	readProcessingRate: DOUBLE
+}
+
+entity Process {
+	demand: DOUBLE
+	processId: INT //?
+}
+
+entity Request {
+	abstractDemand: DOUBLE
+	type: INT
+}
+
+
+event CalculateHDDActiveResourceDemand {
+	reads SimHDDActiveResource.readProcessingRate, SimHDDActiveResource.writeProcessingRate, Request.abstractDemand, Request.type
+	
+	writes Process.demand = abstractDemand / readProcessingRate
+		when type == 1
+		
+	writes Process.demand = abstractDemand / writeProcessingRate
+		when type == 2
+}

@@ -1,0 +1,5 @@
+simulator E7_RDSEFF {
+    description = 'EventSim Simulator Feature'
+
+    features rdseff, release_resource, add_process_to_resource
+}

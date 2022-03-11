@@ -1,0 +1,37 @@
+feature rdseff
+
+use release_resource
+use add_process_to_resource
+
+datatype RDSEFFAction {
+	AcquireAction, ExternalCall, ReleaseAction, InternalAction
+}
+
+entity RDSEFF {
+	actions: ARRAY[RDSEFFAction]
+}
+
+event ProcessRDSEFF {
+	reads RDSEFF.actions
+	
+	schedules ReleaseAction
+		when actions[0] == RDSEFFAction.ReleaseAction
+	
+	schedules AcquireAction
+		when actions[0] == RDSEFFAction.AcquireAction
+}
+
+entity SimFCFSResource {
+	waitingProcesses: ARRAY[INT]
+	waitingProcessesCount: INT
+}
+
+event ConsumeSimFCFSResource {
+	reads Process.demand, SimFCFSResource.waitingProcesses
+}
+
+event ConsumeSimDelayResource {
+	reads Process.demand
+	
+	schedules ProcessRDSEFF with delay = demand
+}

@@ -1,0 +1,69 @@
+feature save_task
+
+entity CommandContext{
+	commandContext: BOOL
+	isStandaloneTaskEnabled: BOOL
+	isParentTaskActive: BOOL
+	isTenantIdNull: BOOL
+}
+
+
+entity Task {
+	revision: INT
+	isAuth: BOOL
+	isSaved: BOOL
+	isUpdated: BOOL
+}
+
+entity Metrics {
+	activeInstanceIsRequired: BOOL
+	startActiveInstance: BOOL	
+}
+
+entity ProcessEngineConfiguration {
+	isTaskMetricsEnabled: BOOL
+}
+
+
+event execute {
+	reads Task.revision 
+			
+	schedules execute_init
+		when (revision == 0) 
+		      
+	writes Metrics.startActiveInstance = true 
+}
+
+event execute_init {
+	reads CommandContext.isParentTaskActive
+	
+	schedules execute_metircs
+		when isParentTaskActive == true
+	
+	schedules fire_autherization_provider
+	schedules transition_to_state_created
+}
+
+event execute_metircs{
+	reads Metrics.activeInstanceIsRequired, ProcessEngineConfiguration.isTaskMetricsEnabled
+	
+	schedules fire_autherization_provider
+	schedules trigger_update_event	
+}
+
+event fire_autherization_provider {
+	reads Task.isAuth
+	writes Task.isAuth = true
+		when isAuth == false	
+}
+
+event transition_to_state_created {
+	reads Task.isAuth, Task.isSaved
+	writes Task.isSaved = true
+		when isAuth == true		
+}
+
+event trigger_update_event {
+	reads Task.isUpdated
+	writes Task.isUpdated = true	
+}

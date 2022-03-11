@@ -1,0 +1,28 @@
+feature resolve_task
+
+entity dclnosfgiase{
+	taskStateIsResolved: BOOL
+	assigneeIsSet: BOOL
+	assigneeIsParent: BOOL
+	isUpdated: BOOL
+}
+
+event slack {
+	schedules intro
+	
+	schedules do_nothing
+}
+
+event intro {
+	reads dclnosfgiase.taskStateIsResolved, dclnosfgiase.assigneeIsParent, dclnosfgiase.assigneeIsSet
+	
+	writes dclnosfgiase.taskStateIsResolved = true
+	
+	writes dclnosfgiase.assigneeIsSet = true
+		when assigneeIsParent
+}
+
+event do_nothing {
+	reads dclnosfgiase.isUpdated
+	writes dclnosfgiase.isUpdated = true	
+} 

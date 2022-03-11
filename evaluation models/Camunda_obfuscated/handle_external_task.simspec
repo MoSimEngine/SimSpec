@@ -1,0 +1,21 @@
+feature handle_external_task
+
+entity Slacker{
+	AIAIAA: INT
+}
+
+entity teee {
+	gnah: BOOL
+	iaevlcev: BOOL	
+}
+
+event layoff {
+	reads teee.gnah, teee.iaevlcev
+	
+	schedules aaaaaaa
+		when gnah && !iaevlcev		 
+}
+
+event aaaaaaa {
+	schedules layoff
+}

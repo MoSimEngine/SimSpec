@@ -1,0 +1,10 @@
+feature get_task_events
+
+entity aa{
+	uu: INT
+	ee: ARRAY[INT]
+}
+
+event cc{
+	reads aa.uu, aa.ee	
+}

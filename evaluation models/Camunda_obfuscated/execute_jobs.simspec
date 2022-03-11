@@ -1,0 +1,35 @@
+feature execute_jobs
+
+entity boj {
+	uudi: INT
+	bojExists: BOOL
+}
+
+entity bojNocExe {
+	exists: BOOL
+}
+
+event layOff {
+	reads boj.uudi, bojNocExe.exists
+	 
+	schedules dpEhcboj
+		when !exists
+		
+	schedules setCurrentboj 	
+}
+
+event dpEhcboj {reads boj.uudi}
+
+event setCurrentboj {
+	reads bojNocExe.exists, boj.uudi
+	
+	schedules setboj
+		when exists
+	
+}
+
+event setboj {reads boj.uudi}
+
+event noCtesboj{reads boj.uudi}
+
+event layOffboj {reads boj.uudi}

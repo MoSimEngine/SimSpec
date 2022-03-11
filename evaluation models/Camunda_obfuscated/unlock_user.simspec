@@ -1,0 +1,21 @@
+feature unlock_user
+
+entity TRvnlefgstae {
+	iaieiaeiaeiaeiaevleviaevlevae: BOOL
+	a: BOOL
+}
+
+entity nobody {
+	vliaevcoe: INT
+}
+
+event vleiaevlevle {
+	reads TRvnlefgstae.iaieiaeiaeiaeiaevleviaevlevae, TRvnlefgstae.a, nobody.vliaevcoe 
+	
+	schedules durvlenaqgiasneonsvtaes
+		when iaieiaeiaeiaeiaevleviaevlevae && a
+}
+
+event durvlenaqgiasneonsvtaes{
+	reads nobody.vliaevcoe		
+}

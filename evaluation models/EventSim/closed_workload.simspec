@@ -1,0 +1,26 @@
+feature closed_workload
+
+use usage_scenario
+
+entity ClosedWorkloadGenerator {
+	thinkTime: DOUBLE
+	population: INT
+}
+
+event UserArrivalClosedWorkload {
+	reads ClosedWorkloadGenerator.thinkTime, ClosedWorkloadGenerator.population
+
+	writes ClosedWorkloadGenerator.population = population - 1
+		when population >= 1
+
+	schedules ProcessUsageScenario with delay = thinkTime
+		when population >= 1
+}
+
+event UsageScenarioFinished {
+	reads ClosedWorkloadGenerator.population
+
+	writes ClosedWorkloadGenerator.population = population + 1
+
+	schedules UserArrivalClosedWorkload
+}

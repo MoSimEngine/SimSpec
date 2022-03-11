@@ -1,0 +1,21 @@
+feature unlock_user
+
+entity Context {
+	isAuthorized: BOOL
+	isAdmin: BOOL
+}
+
+entity User {
+	id: INT
+}
+
+event execute {
+	reads Context.isAuthorized, Context.isAdmin, User.id 
+	
+	schedules unlock_user
+		when isAuthorized && isAdmin
+}
+
+event unlock_user{
+	reads User.id		
+}

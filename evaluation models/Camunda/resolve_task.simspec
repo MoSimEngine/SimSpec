@@ -1,0 +1,28 @@
+feature resolve_task
+
+entity Task{
+	taskStateIsResolved: BOOL
+	assigneeIsSet: BOOL
+	assigneeIsParent: BOOL
+	isUpdated: BOOL
+}
+
+event execute {
+	schedules resolve
+	
+	schedules trigger_update_event
+}
+
+event resolve {
+	reads Task.taskStateIsResolved, Task.assigneeIsParent, Task.assigneeIsSet
+	
+	writes Task.taskStateIsResolved = true
+	
+	writes Task.assigneeIsSet = true
+		when assigneeIsParent
+}
+
+event trigger_update_event {
+	reads Task.isUpdated
+	writes Task.isUpdated = true	
+} 

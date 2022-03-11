@@ -1,0 +1,35 @@
+feature execute_jobs
+
+entity Job {
+	id: INT
+	jobExists: BOOL
+}
+
+entity JobExecutorContext {
+	exists: BOOL
+}
+
+event execute {
+	reads Job.id, JobExecutorContext.exists
+	 
+	schedules checkUpdateJob
+		when !exists
+	 	
+	schedules setCurrentJob
+}
+
+event checkUpdateJob {reads Job.id}
+
+event setCurrentJob {
+	reads JobExecutorContext.exists, Job.id
+	
+	schedules setJob
+		when exists
+	
+}
+
+event setJob {reads Job.id}
+
+event setContextJob{reads Job.id}
+
+event executeJob {reads Job.id}
